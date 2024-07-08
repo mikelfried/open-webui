@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from authlib.integrations.starlette_client import OAuth
 from authlib.oidc.core import UserInfo
 from bs4 import BeautifulSoup
+from httpx import Timeout
 import json
 import markdown
 import time
@@ -2025,6 +2026,7 @@ for provider_name, provider_config in OAUTH_PROVIDERS.items():
         server_metadata_url=provider_config["server_metadata_url"],
         client_kwargs={
             "scope": provider_config["scope"],
+            "timeout": Timeout(timeout=provider_config["timeout"])
         },
     )
 

@@ -381,6 +381,12 @@ OPENID_PROVIDER_URL = PersistentConfig(
     os.environ.get("OPENID_PROVIDER_URL", ""),
 )
 
+OAUTH_LOGIN_TIMEOUT = PersistentConfig(
+    "OAUTH_LOGIN_TIMEOUT",
+    "oauth.login_timeout",
+    int(os.environ.get("OAUTH_LOGIN_TIMEOUT", "5")),
+)
+
 OAUTH_SCOPES = PersistentConfig(
     "OAUTH_SCOPES",
     "oauth.oidc.scopes",
@@ -414,6 +420,7 @@ def load_oauth_providers():
             "client_secret": GOOGLE_CLIENT_SECRET.value,
             "server_metadata_url": "https://accounts.google.com/.well-known/openid-configuration",
             "scope": GOOGLE_OAUTH_SCOPE.value,
+            "timeout": OAUTH_LOGIN_TIMEOUT.value,
         }
 
     if (
@@ -426,6 +433,7 @@ def load_oauth_providers():
             "client_secret": MICROSOFT_CLIENT_SECRET.value,
             "server_metadata_url": f"https://login.microsoftonline.com/{MICROSOFT_CLIENT_TENANT_ID.value}/v2.0/.well-known/openid-configuration",
             "scope": MICROSOFT_OAUTH_SCOPE.value,
+            "timeout": OAUTH_LOGIN_TIMEOUT.value,
         }
 
     if (
@@ -439,6 +447,7 @@ def load_oauth_providers():
             "server_metadata_url": OPENID_PROVIDER_URL.value,
             "scope": OAUTH_SCOPES.value,
             "name": OAUTH_PROVIDER_NAME.value,
+            "timeout": OAUTH_LOGIN_TIMEOUT.value,
         }
 
 
